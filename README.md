@@ -1,9 +1,9 @@
 <h1 align="center">Hi 👋, I'm Furkan Keskiner</h1>
-<h3 align="center">Front-End Developer from Turkey</h3>
+<h3 align="center">Software Engineer from Turkey</h3>
 
 <p align="left"> <a href="https://twitter.com/Furkannkeskiner" target="blank"><img src="https://img.shields.io/twitter/follow/Furkannkeskiner?logo=twitter&style=for-the-badge" alt="Furkannkeskiner" /></a> </p>
 
-- 🌱 I’m currently learning **HMTL5, CSS3, Javascript, React**
+- 🌱 I’m currently learning **HMTL5, CSS3, Javascript, React, Vue, Python, SQL**
 
 - 📫 How to reach me **furkannkeskiner@gmail.com**
 
