@@ -1,22 +1,93 @@
-<h1 align="center">Hi 👋, I'm Furkan Keskiner</h1>
-<h3 align="center">Software Engineer from Turkey</h3>
+# Trendyol Login Test Otomasyonu
 
-<p align="left"> <a href="https://twitter.com/Furkannkeskiner" target="blank"><img src="https://img.shields.io/twitter/follow/Furkannkeskiner?logo=twitter&style=for-the-badge" alt="Furkannkeskiner" /></a> </p>
+Bu proje, Trendyol giriş sayfasını ve isteğe bağlı olarak gerçek bir **test hesabıyla** giriş akışını [Playwright](https://playwright.dev/) kullanarak kontrol eder.
 
-- 🌱 I’m currently learning **HMTL5, CSS3, Javascript, React, Vue, Python, SQL**
+## Gereksinimler
 
-- 📫 How to reach me **furkannkeskiner@gmail.com**
+- Node.js 20 veya üzeri
+- Size ait, otomasyon için ayrılmış bir Trendyol test hesabı
 
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-<a href="https://twitter.com/Furkannkeskiner" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="Furkannkeskiner" height="30" width="40" /></a>
-<a href="https://www.linkedin.com/in/furkan-keskiner-3249a8182/" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="Furkannkeskiner" height="30" width="40" /></a>
-<a href="https://instagram.com/furkannkeskiner" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="furkannkeskiner" height="30" width="40" /></a>
-<a href="https://www.hackerrank.com/furkannkeskiner" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/hackerrank.svg" alt="furkannkeskiner" height="30" width="40" /></a>
+## Kurulum
 
-</p>
+```bash
+npm install
+npx playwright install chromium
+```
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://getbootstrap.com" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/> </a> <a href="https://www.w3schools.com/css/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://reactjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> </a> </p>
+## Testleri çalıştırma
 
-<p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=furkankeskiner&show_icons=true&locale=en&layout=compact" alt="furkankeskiner" /></p>
+Kimlik bilgisi vermeden çalıştırıldığında giriş formu testi koşar; gerçek giriş testi güvenli biçimde atlanır:
+
+```bash
+npm test
+```
+
+Gerçek giriş akışını da çalıştırmak için bilgileri kaynak koda veya Git'e eklemeden ortam değişkeni olarak verin:
+
+```bash
+TRENDYOL_EMAIL='test@example.com' \
+TRENDYOL_PASSWORD='sifreniz' \
+npm test
+```
+
+Alternatif olarak örnek dosyayı kopyalayıp yalnızca yerel `.env` dosyasını düzenleyebilirsiniz:
+
+```bash
+cp .env.example .env
+npm test
+```
+
+`.env` Git tarafından yok sayılır ve Playwright yapılandırması tarafından otomatik yüklenir.
+
+Tarayıcıyı görerek çalıştırmak için `npm run test:headed`, interaktif Playwright arayüzü için `npm run test:ui` kullanılabilir. Son HTML raporu `npm run test:report` ile açılır.
+
+## Test kapsamı
+
+- `/giris` sayfasının ve e-posta/şifre alanlarının görünürlüğü
+- Alanların kullanıcı girişine açık olması
+- Ortam değişkenleri sağlandığında başarılı giriş sonrası giriş sayfasından ayrılma
+- Başarılı girişten sonra **Hesabım** alanının görünmesi
+
+> Trendyol CAPTCHA veya ek doğrulama gösterebilir. Otomasyon bu güvenlik kontrollerini aşmaya çalışmaz. Böyle bir durumda testi headed/UI modunda, Trendyol kullanım koşullarına uygun biçimde çalıştırın. Çok sayıda deneme veya kişisel ana hesabın kullanılması önerilmez.
+
+## Proje yapısı
+
+```text
+tests/
+├── login.spec.ts
+└── pages/
+    └── login.page.ts
+```
+
+Seçiciler ve giriş işlemleri Page Object içinde tutulur; senaryolar test dosyasında okunabilir kalır. CI ortamında hata oluştuğunda ekran görüntüsü, video ve trace `test-results/` dizinine kaydedilir.
+
+## Nasıl çalışır?
+
+```text
+npm test
+   │
+   ├─ playwright.config.ts  → .env değerlerini ve Chromium ayarlarını yükler
+   │
+   └─ tests/login.spec.ts
+        │
+        ├─ LoginPage.goto()         → https://www.trendyol.com/giris
+        ├─ expectLoaded()           → form alanlarını kontrol eder
+        └─ login(email, password)   → alanları doldurup butona tıklar
+                                      ↓
+                              URL /giris'ten ayrıldı mı?
+                              "Hesabım" görünüyor mu?
+```
+
+İlk senaryo her çalıştırmada giriş formunun açıldığını kontrol eder. İkinci senaryo `TRENDYOL_EMAIL` ve `TRENDYOL_PASSWORD` yoksa **skipped** görünür; iki değer de varsa gerçek giriş adımlarını çalıştırır. Örneğin beklenen konsol özeti şöyledir:
+
+```text
+✓ giriş formunu gösterir
+- geçerli test hesabıyla giriş yapar (kimlik bilgileri yoksa skipped)
+```
+
+Başarısız bir çalıştırmayı incelemek için:
+
+```bash
+npx playwright show-trace test-results/<test-klasoru>/trace.zip
+npm run test:report
+```
